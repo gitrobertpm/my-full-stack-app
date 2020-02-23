@@ -5,7 +5,6 @@ import Consumer from '../Context';
 
 
 const DeleteModal = (props) => {
-  // console.log(props);
   return ( 
     <div className="bounds delete-modal">
       <div className="actions--bar">
@@ -28,7 +27,6 @@ const DeleteModal = (props) => {
 }
 
 const CourseDetails = ({match}) => {
-
   const appContext = useContext(Consumer);
   const paramsID = match.params.id;
   const courseIndex = paramsID - 1;
@@ -38,17 +36,23 @@ const CourseDetails = ({match}) => {
 
   const [wasDeleted, updateWasDeleted] = useState(false);
 
-  const [ errors, setErrors] = useState({
-    errors: [],
-  });
+  const [ errors, setErrors] = useState([]);
+  const [ serverErrors, setServerErrors] = useState(false);
 
   const toggleShowDelete = () => {
     updateShowDelete(!showDelete);
   }
 
   const deleteCourse = async () => {
+    setErrors([]);
+    setServerErrors(false);
+
     const deleteRes = await appContext.data.deleteCourse(appContext.courseList[courseIndex].id, appContext.authenticatedUser.emailAddress, appContext.authenticatedUser.password);
-    console.log(deleteRes);
+
+    if (!deleteRes) {
+      return setServerErrors(true);
+    }
+
     if (deleteRes.res === null) {
       setErrors([...deleteRes.msg]);
     } else {
@@ -59,69 +63,71 @@ const CourseDetails = ({match}) => {
     }
   }
 
-  return (
+  if (serverErrors) {
+    return <Redirect to="/error" />
+  } else {
+    return (
 
-    appContext.courseList.length <= 0 ? <div className="bounds"><h1>Loading...</h1></div> :
+      appContext.courseList.length <= 0 ? <div className="bounds"><h1>Loading...</h1></div> :
 
-    wasDeleted ? <Redirect to="/deleted" /> :
+      wasDeleted ? <Redirect to="/deleted" /> :
 
-    !course ? <Redirect to="/notfound" /> :
+      !course ? <Redirect to="/notfound" /> :
 
-    showDelete ? <DeleteModal title={course.title} delToggle={toggleShowDelete} courseDelete={deleteCourse} errs={errors}/> :
+      showDelete ? <DeleteModal title={course.title} delToggle={toggleShowDelete} courseDelete={deleteCourse} errs={errors}/> :
 
-    
-
-    <div className="bounds">
-      <div className="courseDetailContainer">
-        <div className="actions--bar">
-          <div className="bounds">
-            <div className="grid-100">
-              { 
-                appContext.authenticatedUser === null ? null :
-                course.creator.emailAddress === appContext.authenticatedUser.emailAddress ?
-                <span>
-                  <NavLink className="button" to={ `/course/update/${paramsID}` } >Update Course</NavLink>
-                  <button className="button" onClick={toggleShowDelete}>Delete Course</button>
-                </span> : null
-              }            
-              <NavLink className="button button-secondary" to="/">Return to List</NavLink>
+      <div className="bounds">
+        <div className="courseDetailContainer">
+          <div className="actions--bar">
+            <div className="bounds">
+              <div className="grid-100">
+                { 
+                  appContext.authenticatedUser === null ? null :
+                  course.creator.emailAddress === appContext.authenticatedUser.emailAddress ?
+                  <span>
+                    <NavLink className="button" to={ `/course/update/${paramsID}` } >Update Course</NavLink>
+                    <button className="button" onClick={toggleShowDelete}>Delete Course</button>
+                  </span> : null
+                }            
+                <NavLink className="button button-secondary" to="/">Return to List</NavLink>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="bounds course--detail">
-          <div className="grid-66">
-            <div className="course--header">
-              <h4 className="course--label">Course</h4>
-              <h3 className="course--title">{course.title}</h3>
-              <p>By {course.creator.firstName + ' ' + course.creator.lastName}</p>
+          <div className="bounds course--detail">
+            <div className="grid-66">
+              <div className="course--header">
+                <h4 className="course--label">Course</h4>
+                <h3 className="course--title">{course.title}</h3>
+                <p>By {course.creator.firstName + ' ' + course.creator.lastName}</p>
+              </div>
+              <div className="course--description">
+                <ReactMarkdown source={course.description}/>
+              </div>
             </div>
-            <div className="course--description">
-              <ReactMarkdown source={course.description}/>
+            <div className="grid-25 grid-right">
+              <div className="course--stats">
+                <ul className="course--stats--list">
+                  <li className="course--stats--list--item">
+                    <h4>Estimated Time</h4>
+                    <h3>{course.estimatedTime}</h3>
+                  </li>
+                  <li className="course--stats--list--item">
+                    <h4>Materials Needed</h4>               
+                    <ul>
+                      <ReactMarkdown source={course.materialsNeeded}/>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <p className="clear-fix" ><span role="img" aria-label="Books icon">&#128218;</span></p>
             </div>
           </div>
-          <div className="grid-25 grid-right">
-            <div className="course--stats">
-              <ul className="course--stats--list">
-                <li className="course--stats--list--item">
-                  <h4>Estimated Time</h4>
-                  <h3>{course.estimatedTime}</h3>
-                </li>
-                <li className="course--stats--list--item">
-                  <h4>Materials Needed</h4>               
-                  <ul>
-                    <ReactMarkdown source={course.materialsNeeded}/>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <p className="clear-fix" ><span role="img" aria-label="Books icon">&#128218;</span></p>
-          </div>
-        </div>
-      </div>     
-    </div>
-  );
+        </div>     
+      </div>
+    );
+  }
 }
 
 export default CourseDetails;

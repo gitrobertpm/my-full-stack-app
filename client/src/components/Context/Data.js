@@ -1,3 +1,5 @@
+// import React from 'react';
+// import { Route, Redirect } from 'react-router-dom';
 import config from './config';
 
 /**
@@ -18,7 +20,7 @@ export default class Data {
    */
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
-  
+
     const options = {
       method,
       headers: {
@@ -34,7 +36,8 @@ export default class Data {
       const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
-    return fetch(url, options);
+
+    return fetch(url, options);;
   }
 
   
@@ -47,11 +50,9 @@ export default class Data {
       const response = await this.api(`/courses`, 'GET', null);
       const courseJson = await response.json();
       console.log(response);
+      
       if (response.status === 200) {
         return courseJson;
-
-      } else if (response.status === 500) {
-        return { res: 500, statusText: courseJson.statusText, details: courseJson };
 
       } else {
         throw new Error();
@@ -100,16 +101,13 @@ export default class Data {
   async createUser(user) {
     try {
       const response = await this.api('/users', 'POST', user);
-
+      
       if (response.status === 201) {
         return [];
 
       } else if (response.status === 400) { 
         const newUserJson = await response.json();
         return {res: null, msg: newUserJson.message};
- 
-      } else {
-        throw new Error();
       }
 
     } catch (err) {
@@ -136,9 +134,6 @@ export default class Data {
       } else if (response.status === 400) {
         const newCourseJson = await response.json();
         return {res: null, msg: newCourseJson.message};
-
-      } else {
-        throw new Error();
       }
 
     } catch (err) {
@@ -166,9 +161,6 @@ export default class Data {
       } else if (response.status === 400 || response.status === 403) { 
         const updateCourseJson = await response.json(); 
         return {res: null, msg: updateCourseJson.message};
-
-      } else {
-        throw new Error();
       }
 
     } catch (err) {
@@ -195,10 +187,7 @@ export default class Data {
       } else if (response.status === 400 || response.status === 403) {
         const deleteJson = await response.json();
         return {res: null, msg: deleteJson.message};
- 
-      } else {
-        throw new Error();
-      }
+      } 
 
     } catch (err) {
       console.error(err);

@@ -13,8 +13,6 @@ const Nav = () => {
     history.push('/signin');
   }
 
-  console.log(authUser);
-
   return (
     <nav>
       <div className="bounds">

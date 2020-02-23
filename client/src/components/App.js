@@ -28,7 +28,6 @@ import Forbidden from './errorComponents/Forbidden';
 
 const App = () => {
 
-
   return (
     <BrowserRouter>
       <Route render={({ location }) => (
@@ -58,8 +57,8 @@ const App = () => {
                 <Route path="/signup" component={ SignUp } />
                 <Route path="/signin" component={ SignIn } />
 
-                <Route path="/error" component={ Errors } />
                 <Route path="/forbidden" component={ Forbidden } />
+                <Route path="/error" component={ Errors } />
                 
                 <Route component={ NotFound } />
               </Switch>

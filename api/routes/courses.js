@@ -38,14 +38,14 @@ const courseAttributesObject = body => {
 **/
 
 /* GET /api/courses 200
-   Returns a list of courses (including the user that owns each course) */
+   Returns list of courses (including the user that owns each course) */
 router.get('/courses', asyncHandler(async (req, res, next) => {
   const courses = await Course.findAll(CourseWithAttributesAndIncludes);
   res.status(200).json(courses);
 }));
 
 /* GET /api/courses/:id 200 
-   Returns a the course (including the user that owns the course) for the provided course ID */
+   Returns course (including the user that owns the course) for the provided course ID */
 router.get('/courses/:id', asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id, CourseWithAttributesAndIncludes);
   res.status(200).json(course) ;

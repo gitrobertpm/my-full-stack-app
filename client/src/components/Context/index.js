@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Data from './Data';
 
@@ -41,25 +40,15 @@ export class Provider extends Component {
    */
   getCourses = async () => {
     const response = await this.data.getCourses();
+    console.log(response);
 
-    if (response.res === 500) {
-
-      // return React.render(<Redirect to={{
-      //   pathname: '/error'
-      // }} />);
-      
-      //history.push('/error'); 
+    if (response.length) {
+      this.setState({
+        courseList: response
+      });
     }
-
-    this.setState({
-      courseList: response
-    });
-
+    
     return response;
-  }
-
-  componentWillMount() {
-    this.getCourses();
   }
 
 

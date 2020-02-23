@@ -9,8 +9,9 @@ const Errors = (props) => {
         <h1 className="header--logo error-heading"><span role="img" aria-label="Scream emoji">&#128561;</span> Error <span role="img" aria-label="Scream emoji">&#128561;</span></h1>
         <br />
         <br />
-        <p className="course--title"> Oops, apparently we've encountered an error!  So sorry! <span role="img" aria-label="Sad emoji">&#128546;</span></p>
+        <p className="course--title"> Oops, apparently we've encountered an error on the server!  So sorry! <span role="img" aria-label="Sad emoji">&#128546;</span></p>
         <br />
+        <p className="course--title">Please check back soon.  We hope to have this resolved shortly. <span role="img" aria-label="Fingers crossed emoji">&#129310;</span></p>
         <br />
         <p className="course--title">{props.err}</p>
         <br />
