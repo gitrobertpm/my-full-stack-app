@@ -10,6 +10,7 @@ const UpdateCourse = ({match}) => {
   const courseIndex = paramsID - 1;
   const courseID = appContext.courseList[courseIndex].id;
   const existingCourse = appContext.courseList[courseIndex];
+  console.log(appContext.courseList);
 
   const [course, setCourse] = useState({
       title: existingCourse.title || '',
@@ -34,11 +35,16 @@ const UpdateCourse = ({match}) => {
 
     const courseUpdate = await appContext.data.updateCourse(course, courseID, appContext.authenticatedUser.emailAddress, appContext.authenticatedUser.password);
 
+    console.log(courseUpdate);
+
     if (!courseUpdate) {
       return setServerErrors(true);
     }
 
     if (courseUpdate.res === null) {
+      if (typeof courseUpdate.msg === 'string') {
+        courseUpdate.msg = [courseUpdate.msg]
+      }
       return setErrors([...courseUpdate.msg]);
     } else {
       setErrors([]);

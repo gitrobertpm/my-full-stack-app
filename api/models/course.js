@@ -68,6 +68,16 @@ module.exports = (sequelize, DataTypes) => {
           err.message = `You can't update that course.  It ain't yours, yo!`
           throw err;
         }
+      },
+
+      beforeValidate: async (course, options) => {
+        /* Custom test - Send appropriate error messages if empty object sent over in request */
+        if (options.skip.length) {
+          const err = new Error(400);
+          err.name = "SequelizeValidationError";
+          err.message = 'No data sent.  Title and Description are required.'
+          throw err;
+        }
       }
     }
   });

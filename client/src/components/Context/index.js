@@ -40,7 +40,6 @@ export class Provider extends Component {
    */
   getCourses = async () => {
     const response = await this.data.getCourses();
-    console.log(response);
 
     if (response.length) {
       this.setState({

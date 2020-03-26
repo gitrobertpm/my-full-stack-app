@@ -1,3 +1,27 @@
+# Full Stack JavaScript Techdegree v2 - React Front End to consume REST API
+
+This React client is built with Create React App, utilizing primarily functional components with context and React hooks  
+
+## Getting Started
+
+To fire up the Client, run the following commands from the root of the folder that contains this README file.
+
+First, install the project's dependencies using `npm`.
+
+```
+npm install
+```
+
+And lastly, start the application.
+
+```
+npm start
+```
+
+To test the Express server, browse to the URL [http://localhost:3000/](http://localhost:3000/).
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
