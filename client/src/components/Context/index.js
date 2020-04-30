@@ -56,6 +56,7 @@ export class Provider extends Component {
    * @description - Sign into app
    */
   signIn = async (email, password) => {
+    console.log('Sign In', email, password);
     const user = await this.data.getUser(email, password);
     const authUser = {...user, password}
 

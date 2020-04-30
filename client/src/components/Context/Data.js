@@ -71,6 +71,7 @@ export default class Data {
    * @returns User JSON from API
    */
   async getUser(username, password) {
+    console.log('Get User', username, password);
     try {
       const response = await this.api(`/users`, 'GET', null, true, { username, password });
       const userJson = await response.json();

@@ -25,9 +25,11 @@ const SignIn = (props) => {
     setErrors([]);
     setServerErrors(false);
 
-    if (props.location.state) {
-      const from =  props.location.state.from.pathname || '/';
+    console.log('Sign In Submit', props);
 
+    // if (props.location.state) {
+      const from = (props.location.state) ? props.location.state.from.pathname : '/';
+    
       const userSignIn = await appContext.actions.signIn(user.emailAddress, user.password);
       if (userSignIn.res === null) {
         setErrors(['Sign-in was unsuccessful', userSignIn.msg]);
@@ -36,9 +38,9 @@ const SignIn = (props) => {
         history.push(from);  
         console.log(`SUCCESS! ${user.firstName} is now signed in!`);
       }
-    } else {
-      return setServerErrors(true);
-    }
+    // } else {
+      // return setServerErrors(true);
+    // }
   }
 
   const cancel = () => {
