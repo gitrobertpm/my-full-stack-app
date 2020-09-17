@@ -22,8 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         async uniqueCourseTest(courseTitle) {
           /* Custom test - Check course doesn't already exist before creating */
           const course = await Course.findAll({ where: { title: courseTitle } }) || [];
-          if (course.length) {        
-            throw new Error('That course already exists, yo');
+          if (course.length) {
+            const err = new Error();
+            err.name = 'customUniqueError';
+            err.message = 'That course already exists, yo';
+            throw err;
           }
         }
       }
@@ -54,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         if (currentUserId !== courseId) {
           const err = new Error();
           err.name = 'customUniqueError';
-          err.message = `You can't delete that course.  It ain't yours, yo!`
+          err.message = [`You can't delete that course.  It ain't yours, yo!`];
           throw err;
         }
       },
@@ -65,17 +68,17 @@ module.exports = (sequelize, DataTypes) => {
         if (currentUserId !== courseId) {
           const err = new Error();
           err.name = 'customUniqueError';
-          err.message = `You can't update that course.  It ain't yours, yo!`
+          err.message = [`You can't update that course.  It ain't yours, yo!`];
           throw err;
         }
-      },
 
-      beforeValidate: async (course, options) => {
         /* Custom test - Send appropriate error messages if empty object sent over in request */
-        if (options.skip.length) {
-          const err = new Error(400);
-          err.name = "SequelizeValidationError";
-          err.message = 'No data sent.  Title and Description are required.'
+        if (!course._changed.title || !course._changed.description) {
+          const err = new Error();
+          err.name = 'SequelizeValidationError';
+          err.message = [];
+          if (!course._changed.title) err.message.push('Course title is required');
+          if (!course._changed.description) err.message.push('Course description is required');
           throw err;
         }
       }

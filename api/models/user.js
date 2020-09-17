@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         firstNameTest() {
           /* Custom test - Check first name is not empty or null before creating */
           if (this.firstName === null || this.firstName === '') {
-            throw new Error('Please provide a First Name');
+            throw new Error('Please provide a first name');
           }
         }
       } 
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         lastNameTest() {
           /* Custom test - Check last name is not empty or null before creating */
           if (this.lastName === null || this.lastName === '') {
-            throw new Error('Please provide a Last Name');
+            throw new Error('Please provide a last name');
           }
         }
       }
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         basicEmailTest(email) {
           /* Custom test - Check email address is not empty or null before creating */
           if (email === null || email === '') {
-            throw new Error('Please provide an Email Address');
+            throw new Error('Please provide an email address');
           } 
 
           /* Simple custom test - Check email address has valid format before creating */
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
           const dotTest = email.lastIndexOf('.') < (email.length - 1);
 
           if (!lengthTest || !atTest || !dotTest) {
-            throw new Error('Please provide a valid Email Address');
+            throw new Error('Please provide a valid email address');
           }
 
           /* Robust custom test - Check email address has valid format before creating */
@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
           /* Custom test - Check email address is unique before creating */
           let user = await User.findAll({where: {emailAddress: email}}) || [];
           if (user.length) {           
-            throw new Error('The Email Address you entered is already registered, yo!');
+            throw new Error('The email address you entered is already registered, yo!');
           }
         }
       }
