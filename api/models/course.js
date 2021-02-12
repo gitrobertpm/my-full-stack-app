@@ -71,14 +71,13 @@ module.exports = (sequelize, DataTypes) => {
           err.message = [`You can't update that course.  It ain't yours, yo!`];
           throw err;
         }
-
         /* Custom test - Send appropriate error messages if empty object sent over in request */
-        if (!course._changed.title || !course._changed.description) {
+        if (!course.title || !course.description) {
           const err = new Error();
           err.name = 'SequelizeValidationError';
           err.message = [];
-          if (!course._changed.title) err.message.push('Course title is required');
-          if (!course._changed.description) err.message.push('Course description is required');
+          if (!course.title) err.message.push('Course title is required');
+          if (!course.description) err.message.push('Course description is required');
           throw err;
         }
       }

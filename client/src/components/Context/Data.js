@@ -131,7 +131,7 @@ export default class Data {
         return [];
 
       } else if (response.status === 400) {
-        const newCourseJson = await response.json();
+        const newCourseJson = await response.json(); 
         return {res: null, msg: newCourseJson.message};
       }
 

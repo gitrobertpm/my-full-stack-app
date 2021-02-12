@@ -55,13 +55,13 @@ router.get('/courses/:id', asyncHandler(async (req, res, next) => {
    Authenticates user, creates a course, sets the Location header to the URI for the course, and returns no content */
 router.post('/courses', authenticateUser, asyncHandler(async (req, res, next) => {
   const course = await Course.create(courseAttributesObject(req.body));
-  res.location(`/courses/:${course.id}`).status(201).end();
+  res.location(`/courses/${course.id}`).status(201).end();
 }));
 
 /* PUT /api/courses/:id 204 
    Authenticates user, updates a course, sets the Location header to the URI for the course, and returns no content */
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
-  const course = await Course.findByPk(req.params.id);
+  const course = await Course.findByPk(req.params.id); 
   await course.update(courseAttributesObject(req.body), {currentUserId: req.currentUser.id, courseId: course.userId});
   res.location(`/courses/:${course.id}`).status(204).end();
 }));

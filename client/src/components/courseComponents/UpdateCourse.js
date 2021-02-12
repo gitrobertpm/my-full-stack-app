@@ -32,7 +32,7 @@ const UpdateCourse = ({match}) => {
   const submit = async () => {
     setErrors([]);
     setServerErrors(false);
-
+    console.log(course, courseID, appContext.authenticatedUser.emailAddress, appContext.authenticatedUser.password);
     const courseUpdate = await appContext.data.updateCourse(course, courseID, appContext.authenticatedUser.emailAddress, appContext.authenticatedUser.password);
 
     console.log(courseUpdate);

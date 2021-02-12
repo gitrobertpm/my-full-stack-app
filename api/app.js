@@ -29,14 +29,22 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 
-/* Test the DB connection */
+/* Test the DB connection and sync */
 (async () => {
   console.log('Testing the connection to the database...');
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
+  } catch (err) {
+    console.error('Unable to connect to the database:', err);
+  }
+
+  try {
+    console.log('Syncing the database...');
+    await sequelize.sync();
+    console.log('Sync successful.');
+  } catch (err) {
+    console.error('Unable to sync the database:', err);
   }
 })();
 

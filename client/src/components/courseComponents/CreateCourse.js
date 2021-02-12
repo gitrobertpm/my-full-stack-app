@@ -7,7 +7,6 @@ const CreateCourse = ({match}) => {
   const appContext = useContext(Consumer);
   let history = useHistory();
   const newCourseParam = appContext.courseList.length + 1;
-
   const [course, setCourse] = useState({
       title: '',
       description: '',
